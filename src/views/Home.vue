@@ -1,18 +1,34 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+  <div class="my-4">
+    <breadcrumbs />
+
+    <div class="content-center text-center">
+      <v-img
+        :src="require('@/assets/images/dasboard.png')"
+        max-width="500"
+        class="d-block mx-auto mb-5"
+      ></v-img>
+      <h2>WELCOME TO</h2>
+      <h1>
+        KRUSTY
+        <span style="color: #ff0000">POS</span>
+      </h1>
+    </div>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
-
+import Breadcrumbs from '@/components/Breadcrumbs'
 export default {
-  name: "Home",
-  components: {
-    HelloWorld,
-  },
-};
+  name: 'Home',
+  components: { Breadcrumbs },
+}
 </script>
+<style scoped>
+.content-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+</style>
