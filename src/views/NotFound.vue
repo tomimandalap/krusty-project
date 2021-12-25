@@ -28,6 +28,7 @@
 </template>
 <script>
 export default {
+  name: '404',
   mounted() {
     this.$store.commit('setShow', false)
   },

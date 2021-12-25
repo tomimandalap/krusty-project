@@ -91,6 +91,25 @@ export default {
       return this.$store.state.show
     },
   },
+  mounted() {
+    this.check()
+  },
+  methods: {
+    check() {
+      const checking = this.$browserDetect
+      console.log(checking)
+      if (
+        !checking.isOpera &&
+        !checking.isEdge &&
+        !checking.isIE &&
+        !checking.isFirefox
+      ) {
+        return
+      } else {
+        this.$router.push('/browsersupport')
+      }
+    },
+  },
 }
 </script>
 <style scoped>

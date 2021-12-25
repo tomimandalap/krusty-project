@@ -10,6 +10,11 @@ const routes = [
     component: () => import('@/views/Index'),
   },
   {
+    path: '/browsersupport',
+    name: 'browserSupport',
+    component: () => import('@/components/BowserSupport'),
+  },
+  {
     path: '*',
     beforeEnter: (to, from, next) => {
       next('/404')
