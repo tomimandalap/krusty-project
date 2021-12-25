@@ -5,6 +5,7 @@
     <div class="content-center text-center">
       <v-img
         :src="require('@/assets/images/dasboard.png')"
+        alt="dasboard.png"
         max-width="500"
         class="d-block mx-auto mb-5"
       ></v-img>
@@ -20,15 +21,7 @@
 <script>
 import Breadcrumbs from '@/components/Breadcrumbs'
 export default {
-  name: 'Home',
+  name: 'Dasboard',
   components: { Breadcrumbs },
 }
 </script>
-<style scoped>
-.content-center {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-</style>

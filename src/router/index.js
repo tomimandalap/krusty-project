@@ -1,21 +1,43 @@
-import Vue from "vue";
-import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
+import Vue from 'vue'
+import VueRouter from 'vue-router'
 
-Vue.use(VueRouter);
+Vue.use(VueRouter)
 
 const routes = [
   {
-    path: "/",
-    name: "Home",
-    component: Home,
+    path: '/',
+    name: 'Dasboard',
+    component: () => import('@/views/Index'),
   },
-];
+  {
+    path: '*',
+    beforeEnter: (to, from, next) => {
+      next('/404')
+    },
+  },
+  {
+    path: '/404',
+    name: '404',
+    component: () => import('@/views/NotFound'),
+  },
+]
 
 const router = new VueRouter({
-  mode: "history",
+  mode: 'history',
   base: process.env.BASE_URL,
   routes,
-});
+})
 
-export default router;
+router.beforeEach((to, from, next) => {
+  window.scrollTo(0, 0)
+  next()
+})
+
+router.afterEach((to) => {
+  const DEFAULT_TITLE = process.env.VUE_APP_NAME || 'Krusty POS'
+  Vue.nextTick(() => {
+    document.title = DEFAULT_TITLE + ' | ' + to.name || DEFAULT_TITLE
+  })
+})
+
+export default router

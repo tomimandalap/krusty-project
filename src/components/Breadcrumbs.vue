@@ -26,7 +26,7 @@ export default {
         {
           text: 'Dashboard',
           disabled: false,
-          link: 'breadcrumbs_dashboard',
+          link: '/dasboard',
         },
         {
           text: 'Link 1',
