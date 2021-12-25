@@ -9,6 +9,9 @@
   },
   "dependencies": {
     "core-js": "^3.6.5",
+    "i": "^0.3.7",
+    "npm": "^8.3.0",
+    "v-offline": "^2.2.4",
     "vue": "^2.6.11",
     "vue-browser-detect-plugin": "^0.1.18",
     "vue-router": "^3.2.0",
@@ -21,6 +24,7 @@
     "@vue/cli-plugin-router": "~4.5.0",
     "@vue/cli-plugin-vuex": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
+    "@vue/composition-api": "^1.4.2",
     "@vue/eslint-config-prettier": "^6.0.0",
     "babel-eslint": "^10.1.0",
     "eslint": "^6.7.2",

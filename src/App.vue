@@ -69,15 +69,25 @@
 
     <v-main>
       <v-container fluid>
-        <router-view />
+        <v-offline
+          @detected-condition="amIOnline"
+          online-class="online"
+          offline-class="offline"
+        >
+          <router-view v-if="online" />
+          <DetectOffline v-else />
+        </v-offline>
       </v-container>
     </v-main>
   </v-app>
 </template>
 <script>
+import DetectOffline from '@/components/DetectOffline'
 export default {
   name: 'App',
+  components: { DetectOffline },
   data: () => ({
+    online: true,
     items: [
       { title: 'Dashboard', icon: 'mdi-view-grid' },
       { title: 'Products', icon: 'mdi-package-variant-closed' },
@@ -97,7 +107,6 @@ export default {
   methods: {
     check() {
       const checking = this.$browserDetect
-      console.log(checking)
       if (
         !checking.isOpera &&
         !checking.isEdge &&
@@ -108,6 +117,9 @@ export default {
       } else {
         this.$router.push('/browsersupport')
       }
+    },
+    amIOnline(e) {
+      this.online = e
     },
   },
 }
