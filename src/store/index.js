@@ -1,10 +1,12 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import moduleProducts from './modules/products'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    privateURL: process.env.VUE_APP_BASE_URL,
     show: true,
   },
   mutations: {
@@ -17,5 +19,7 @@ export default new Vuex.Store({
       context.commit('setShow', params)
     },
   },
-  modules: {},
+  modules: {
+    products: moduleProducts,
+  },
 })
