@@ -1,15 +1,18 @@
 <template>
-  <div class="my-4">
-    <Breadcrumbs :menu="menu" />
-  </div>
+  <LayoutDefault>
+    <v-container fluid class="my-4">
+      <Breadcrumbs :menu="menu" />
+    </v-container>
+  </LayoutDefault>
 </template>
 <script>
 import globalMenu from '@/utils/globalMenu'
 import Breadcrumbs from '@/components/Breadcrumbs'
+import LayoutDefault from '@/layouts/default'
 export default {
   name: 'History',
   mixins: [globalMenu],
-  components: { Breadcrumbs },
+  components: { Breadcrumbs, LayoutDefault },
   data() {
     return {
       menu: [],

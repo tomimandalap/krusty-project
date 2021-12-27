@@ -25,6 +25,11 @@ const routes = [
     component: () => import('@/views/History'),
   },
   {
+    path: '/login',
+    name: 'Login',
+    component: () => import('@/views/Login'),
+  },
+  {
     path: '/browsersupport',
     name: 'browserSupport',
     component: () => import('@/components/BowserSupport'),
