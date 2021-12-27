@@ -8,10 +8,10 @@
 
     <!-- sideleft -->
     <v-navigation-drawer :value="show" color="#fff" class="ps-4 pe-4 py-10" app>
-      <div class="ps-4 mb-6">
-        <v-btn elevation="0" small fab color="#F0F0F0" dark class="me-3">
+      <div class="ps-4 mb-6 d-flex align-center justify-start">
+        <v-avatar color="#F0F0F0" dark size="32" class="me-2">
           <v-icon color="#ff0000" dark>mdi-store</v-icon>
-        </v-btn>
+        </v-avatar>
         <strong style="font-size: 20px">
           Krusty
           <span style="color: #ff0000">POS</span>
@@ -21,9 +21,10 @@
       <!-- menu -->
       <v-list dense nav>
         <v-list-item
-          v-for="item in items"
-          :key="item.title"
-          color="#FFE600"
+          v-for="item in list_menu"
+          :key="item.name"
+          :to="item.link"
+          color="#FF0000"
           link
         >
           <v-list-item-icon>
@@ -31,7 +32,9 @@
           </v-list-item-icon>
 
           <v-list-item-content>
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
+            <v-list-item-title class="black--text">
+              {{ item.name }}
+            </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -83,18 +86,13 @@
 </template>
 <script>
 import DetectOffline from '@/components/DetectOffline'
+import globalMenu from '@/utils/globalMenu'
 export default {
   name: 'App',
   components: { DetectOffline },
+  mixins: [globalMenu],
   data: () => ({
     online: true,
-    items: [
-      { title: 'Dashboard', icon: 'mdi-view-grid' },
-      { title: 'Products', icon: 'mdi-package-variant-closed' },
-      { title: 'Food & Drinks', icon: 'mdi-food' },
-      { title: 'History', icon: 'mdi-calendar-text' },
-    ],
-    right: null,
   }),
   computed: {
     show() {

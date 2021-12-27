@@ -10,6 +10,21 @@ const routes = [
     component: () => import('@/views/Index'),
   },
   {
+    path: '/products',
+    name: 'Products',
+    component: () => import('@/views/Products'),
+  },
+  {
+    path: '/menus',
+    name: 'Menus',
+    component: () => import('@/views/Menus'),
+  },
+  {
+    path: '/history',
+    name: 'History',
+    component: () => import('@/views/History'),
+  },
+  {
     path: '/browsersupport',
     name: 'browserSupport',
     component: () => import('@/components/BowserSupport'),
@@ -22,7 +37,7 @@ const routes = [
   },
   {
     path: '/404',
-    name: '404',
+    name: 'notFound',
     component: () => import('@/views/NotFound'),
   },
 ]

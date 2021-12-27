@@ -6,10 +6,10 @@
       </v-icon>
     </v-btn>
 
-    <v-breadcrumbs :items="items">
+    <v-breadcrumbs :items="menu">
       <template v-slot:item="{ item }">
-        <v-breadcrumbs-item :to="item.link" :disabled="item.disabled">
-          {{ item.text }}
+        <v-breadcrumbs-item :to="item.link" :disabled="item.active">
+          {{ item.name }}
         </v-breadcrumbs-item>
       </template>
       <template v-slot:divider>
@@ -20,6 +20,9 @@
 </template>
 <script>
 export default {
+  props: {
+    menu: { type: Array, default: () => {} },
+  },
   data() {
     return {
       items: [

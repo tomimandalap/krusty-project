@@ -1,28 +1,13 @@
 <template>
   <div class="my-4">
     <Breadcrumbs :menu="menu" />
-
-    <div class="content-center text-center">
-      <v-img
-        :src="require('@/assets/images/dasboard.png')"
-        alt="dasboard.png"
-        max-width="500"
-        class="d-block mx-auto"
-      ></v-img>
-      <h2 class="my-5">WELCOME TO</h2>
-      <h1>
-        KRUSTY
-        <span style="color: #ff0000">POS</span>
-      </h1>
-    </div>
   </div>
 </template>
-
 <script>
 import globalMenu from '@/utils/globalMenu'
 import Breadcrumbs from '@/components/Breadcrumbs'
 export default {
-  name: 'Dasboard',
+  name: 'History',
   mixins: [globalMenu],
   components: { Breadcrumbs },
   data() {
@@ -31,7 +16,7 @@ export default {
     }
   },
   mounted() {
-    const title = this.$route.name || 'Dasboard'
+    const title = this.$route.name || 'History'
     const list_menu = this.list_menu
     const findMenu = list_menu.find((el) => el.title == title)
 
