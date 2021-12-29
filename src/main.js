@@ -5,6 +5,8 @@ import store from './store'
 import vuetify from './plugins/vuetify'
 import vuebrowser from './plugins/vuebrowser'
 import VOffline from './plugins/vueoffline'
+import './plugins/vuelidate'
+import './plugins/vuenotify'
 import '../src/assets/styles/global.css'
 
 Vue.config.productionTip = false

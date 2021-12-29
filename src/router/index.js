@@ -30,6 +30,11 @@ const routes = [
     component: () => import('@/views/Login'),
   },
   {
+    path: '/register',
+    name: 'Register',
+    component: () => import('@/views/Register'),
+  },
+  {
     path: '/browsersupport',
     name: 'browserSupport',
     component: () => import('@/components/BowserSupport'),

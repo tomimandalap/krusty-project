@@ -5,7 +5,7 @@
         ><v-icon color="#000" dark>mdi-menu</v-icon></v-btn
       >
     </v-app-bar> -->
-
+    <notifications position="top right" />
     <v-main>
       <v-offline
         @detected-condition="amIOnline"
