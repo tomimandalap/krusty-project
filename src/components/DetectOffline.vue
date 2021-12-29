@@ -15,8 +15,5 @@
 <script>
 export default {
   name: 'detectOffline',
-  mounted() {
-    this.$store.commit('setShow', false)
-  },
 }
 </script>

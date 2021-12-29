@@ -26,9 +26,6 @@ export default {
     sub_title: 'form register krusty pos',
     state_form: true,
   }),
-  mounted() {
-    this.$store.commit('setShow', false)
-  },
 }
 </script>
 <style scoped>

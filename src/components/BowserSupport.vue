@@ -24,8 +24,5 @@ export default {
       }
     },
   },
-  mounted() {
-    this.$store.commit('setShow', false)
-  },
 }
 </script>

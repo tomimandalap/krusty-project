@@ -21,9 +21,6 @@ export default {
     title: 'Login',
     sub_title: 'form login krusty pos',
   }),
-  mounted() {
-    this.$store.commit('setShow', false)
-  },
 }
 </script>
 <style scoped>

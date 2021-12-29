@@ -29,8 +29,5 @@
 <script>
 export default {
   name: 'notFound',
-  mounted() {
-    this.$store.commit('setShow', false)
-  },
 }
 </script>
