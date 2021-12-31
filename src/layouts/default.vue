@@ -49,11 +49,13 @@
           <br />
           <small style="color: #8e8e8e">Cashier - 1h50m</small>
           <v-btn
+            :loading="loading"
             block
             dark
             elevation="0"
             color="#FF0000"
             class="rounded-lg text-capitalize mb-8 mt-5"
+            @click="handleLogout"
           >
             <v-icon dark small>mdi-arrow-left</v-icon>
             Logout
@@ -80,6 +82,40 @@ export default {
   computed: {
     show() {
       return this.$store.state.show
+    },
+    loading() {
+      return this.$store.state['users'].loading
+    },
+    show_alert() {
+      return this.$store.state['users'].show_alert
+    },
+    status() {
+      return this.$store.state['users'].status
+    },
+    alert_title() {
+      return this.$store.state['users'].alert_title
+    },
+    alert_message() {
+      return this.$store.state['users'].alert_message
+    },
+  },
+  watch: {
+    show_alert(val) {
+      if (val) {
+        this.$notify({
+          type: this.status,
+          title: this.alert_title,
+          text: this.alert_message,
+        })
+      }
+      this.$store.commit('users/setShow', false)
+    },
+  },
+  methods: {
+    async handleLogout() {
+      this.$store.commit('users/setLoading', true)
+      const res = await this.$store.dispatch('users/logout')
+      if (res) this.$router.push('/login')
     },
   },
 }
