@@ -8,6 +8,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     privateURL: process.env.VUE_APP_BASE_URL,
+    ImgUser: process.env.VUE_APP_IMG_USER,
+    ImgProduct: process.env.VUE_APP_IMG_PRODUCT,
     show: true,
   },
   mutations: {

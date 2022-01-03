@@ -31,3 +31,12 @@ body {
 .v-text-field > .v-input__control > .v-input__slot > .v-text-field__slot {
   padding-top: 6px;
 }
+.custom_card_product {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+}
+.cursor {
+  cursor: pointer;
+}

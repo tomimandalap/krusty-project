@@ -16,6 +16,35 @@ export default {
   data: () => ({
     menu: [],
   }),
+  computed: {
+    loading() {
+      return this.$store.state['products'].loading
+    },
+    show_alert() {
+      return this.$store.state['products'].show_alert
+    },
+    status() {
+      return this.$store.state['products'].status
+    },
+    alert_title() {
+      return this.$store.state['products'].alert_title
+    },
+    alert_message() {
+      return this.$store.state['products'].alert_message
+    },
+  },
+  watch: {
+    show_alert(val) {
+      if (val) {
+        this.$notify({
+          type: this.status,
+          title: this.alert_title,
+          text: this.alert_message,
+        })
+      }
+      this.$store.commit('products/setShow', false)
+    },
+  },
   mounted() {
     const title = this.$route.name || 'Menus'
     const list_menu = this.list_menu

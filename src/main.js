@@ -8,6 +8,9 @@ import VOffline from './plugins/vueoffline'
 import './plugins/vuelidate'
 import './plugins/vuenotify'
 import '../src/assets/styles/global.css'
+import Axios from './plugins/axios'
+
+Axios() // running axios
 
 Vue.config.productionTip = false
 
