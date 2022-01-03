@@ -30,9 +30,9 @@ const products = {
     },
   },
   actions: {
-    getProducts(context) {
+    getProducts(context, params) {
       axios
-        .get(`${context.rootState.privateURL}/products`)
+        .get(`${context.rootState.privateURL}/products?q=${params.q}`)
         .then((res) => {
           context.commit('setLoading', false)
           context.commit('setStatus', false)

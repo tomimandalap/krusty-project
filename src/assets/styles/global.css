@@ -31,6 +31,10 @@ body {
 .v-text-field > .v-input__control > .v-input__slot > .v-text-field__slot {
   padding-top: 6px;
 }
+.mdi:before,
+.mdi-set {
+  margin-top: 6px !important;
+}
 .custom_card_product {
   position: absolute;
   width: 100%;

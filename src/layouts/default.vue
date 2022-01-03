@@ -18,15 +18,30 @@
           v-for="item in list_menu"
           :key="item.name"
           :to="item.link"
+          :disabled="item.access && !item.access.some((el) => el == access)"
           color="#FF0000"
-          link
         >
           <v-list-item-icon>
-            <v-icon color="#000" dark>{{ item.icon }}</v-icon>
+            <v-icon
+              :color="
+                item.access && item.access.some((el) => el == access)
+                  ? '#000'
+                  : '#ccc'
+              "
+              dark
+            >
+              {{ item.icon }}
+            </v-icon>
           </v-list-item-icon>
 
           <v-list-item-content>
-            <v-list-item-title class="black--text">
+            <v-list-item-title
+              :class="
+                item.access && item.access.some((el) => el == access)
+                  ? 'black--text'
+                  : null
+              "
+            >
               {{ item.name }}
             </v-list-item-title>
           </v-list-item-content>
@@ -82,6 +97,10 @@ export default {
   computed: {
     show() {
       return this.$store.state.show
+    },
+    access() {
+      const access = parseInt(this.$store.state['users'].access)
+      return access
     },
     loading() {
       return this.$store.state['users'].loading

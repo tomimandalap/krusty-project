@@ -5,14 +5,14 @@ import router from '../router'
 const Axios = () => {
   // request
   axios.interceptors.request.use(
-    (config) => {
+    (res) => {
       const token = store.getters['users/getToken']
       // set token to global access
       if (token) {
-        config.headers.Authorization = `Bearer ${token}`
+        res.headers.Authorization = `Bearer ${token}`
       }
 
-      return config
+      return res
     },
     (err) => {
       console.log('Request', err.response)
@@ -23,8 +23,8 @@ const Axios = () => {
 
   // response
   axios.interceptors.response.use(
-    (config) => {
-      return config
+    (res) => {
+      return res
     },
     (err) => {
       console.error('Response', err.response)

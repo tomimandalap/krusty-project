@@ -2,6 +2,7 @@ import axios from 'axios'
 const users = {
   namespaced: true,
   state: () => ({
+    access: localStorage.getItem('access') || null,
     name: localStorage.getItem('name') || null,
     user_id: localStorage.getItem('user_id') || null,
     token: localStorage.getItem('token') || null,
@@ -15,6 +16,9 @@ const users = {
     getToken: (state) => state.token,
   },
   mutations: {
+    setAccess(state, payload) {
+      state.access = payload
+    },
     setName(state, payload) {
       state.name = payload
     },
@@ -68,11 +72,13 @@ const users = {
           context.commit('setStatus', false)
 
           // set data
-          let { name, user_id, token } = res.data.data[0]
+          let { access, name, user_id, token } = res.data.data[0]
+          context.commit('setAccess', access)
           context.commit('setName', name)
           context.commit('setUserID', user_id)
           context.commit('setToken', token)
           // set localStorage
+          localStorage.setItem('access', access)
           localStorage.setItem('name', name)
           localStorage.setItem('user_id', user_id)
           localStorage.setItem('token', token)
@@ -102,10 +108,12 @@ const users = {
           context.commit('setStatus', false)
 
           // set data null
+          context.commit('setAccess', null)
           context.commit('setName', null)
           context.commit('setUserID', null)
           context.commit('setToken', null)
           // remove localStorage
+          localStorage.removeItem('access')
           localStorage.removeItem('name')
           localStorage.removeItem('user_id')
           localStorage.removeItem('token')

@@ -2,10 +2,45 @@
   <LayoutDefault>
     <Loading :showLoading="loading" />
     <v-container v-if="!loading" fluid class="my-4">
-      <Breadcrumbs :menu="menu" />
+      <v-row>
+        <v-col lg="8">
+          <Breadcrumbs :menu="menu" />
+        </v-col>
+
+        <v-col lg="4">
+          <v-form @submit.prevent="handleSearch">
+            <v-text-field
+              v-model="params.q"
+              dense
+              outlined
+              color="#000"
+              clearable
+              prepend-inner-icon="mdi-magnify"
+              placeholder="Search food or drinks"
+              class="rounded-lg"
+            >
+              <template #append-outer>
+                <v-btn
+                  elevation="0"
+                  color="#ffe600"
+                  height="32"
+                  class="text-capitalize rounded-lg"
+                >
+                  Add
+                </v-btn>
+              </template>
+            </v-text-field>
+          </v-form>
+        </v-col>
+      </v-row>
 
       <v-row>
-        <v-col v-for="(items, i) in datas" :key="i" lg="3">
+        <v-col
+          v-show="datas.length"
+          v-for="(items, i) in datas"
+          :key="i"
+          lg="3"
+        >
           <v-card
             elevetion="0"
             class="rounded-lg cursor"
@@ -23,6 +58,22 @@
               </div>
             </v-img>
           </v-card>
+        </v-col>
+
+        <v-col v-show="!datas.length" cols="12">
+          <div class="content-center text-center">
+            <v-img
+              :src="require('@/assets/images/dasboard.png')"
+              alt="dasboard.png"
+              max-width="500"
+              class="d-block mx-auto"
+            ></v-img>
+            <h2 class="my-5">Search Food or drinks</h2>
+            <h1>
+              Not
+              <span style="color: #ff0000">Found!</span>
+            </h1>
+          </div>
         </v-col>
       </v-row>
     </v-container>
@@ -45,6 +96,11 @@ export default {
   data() {
     return {
       menu: [],
+      params: {
+        q: '',
+        page: 1,
+        limit: 25,
+      },
     }
   },
   computed: {
@@ -83,24 +139,30 @@ export default {
     },
   },
   mounted() {
+    const title = this.$route.name || 'Products'
+    const list_menu = this.list_menu
+    const findMenu = list_menu.find((el) => el.title == title)
+
+    this.menu = [Object.assign(findMenu, { active: false })]
+
     this.load()
   },
   methods: {
     load() {
-      const title = this.$route.name || 'Products'
-      const list_menu = this.list_menu
-      const findMenu = list_menu.find((el) => el.title == title)
-
-      this.menu = [Object.assign(findMenu, { active: false })]
-
       this.$store.commit('products/setLoading', true)
 
       setTimeout(() => {
-        this.$store.dispatch('products/getProducts')
+        this.$store.dispatch('products/getProducts', this.params)
       }, 2000)
     },
     handleDetail(id) {
       alert(id)
+    },
+    async handleSearch() {
+      this.$store.commit('products/setLoading', true)
+      setTimeout(() => {
+        this.$store.dispatch('products/getProducts', this.params)
+      }, 500)
     },
   },
 }
