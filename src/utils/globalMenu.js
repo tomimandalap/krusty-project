@@ -19,7 +19,7 @@ const globalMenu = {
           child_menu: [
             {
               title: 'Add',
-              name: 'Dasboard',
+              name: 'Add',
               icon: '',
               link: '/products/add',
               access: [1],

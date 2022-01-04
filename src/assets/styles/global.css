@@ -10,7 +10,7 @@ body {
   color: #ffe600;
 }
 .c_secondary {
-  color: #ff0000;
+  color: #ff0000 !important;
 }
 .c_success {
   color: #00bf71;

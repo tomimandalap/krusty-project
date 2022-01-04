@@ -1,19 +1,21 @@
 <template>
   <div class="d-flex justify-start align-center">
-    <v-btn fab elevation="0" small icon color="#F0F0F0" @click="handleSideLeft">
+    <v-btn
+      elevation="0"
+      small
+      icon
+      color="#F0F0F0"
+      class="mt-n1"
+      @click="handleSideLeft"
+    >
       <v-icon color="#000" small dark>
         {{ show ? 'mdi-arrow-left' : 'mdi-arrow-right' }}
       </v-icon>
     </v-btn>
 
     <v-breadcrumbs :items="menu">
-      <template v-slot:item="{ item }">
-        <v-breadcrumbs-item :to="item.link" :disabled="item.active">
-          {{ item.name }}
-        </v-breadcrumbs-item>
-      </template>
       <template v-slot:divider>
-        <v-icon>mdi-chevron-right</v-icon>
+        <v-icon class="mt-n1">mdi-chevron-right</v-icon>
       </template>
     </v-breadcrumbs>
   </div>
@@ -24,20 +26,7 @@ export default {
     menu: { type: Array, default: () => {} },
   },
   data() {
-    return {
-      items: [
-        {
-          text: 'Dashboard',
-          disabled: false,
-          link: '/dasboard',
-        },
-        {
-          text: 'Link 1',
-          disabled: true,
-          link: 'breadcrumbs_link_1',
-        },
-      ],
-    }
+    return {}
   },
   computed: {
     show() {
@@ -51,3 +40,10 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.disable-link {
+  color: #8e8e8e;
+  pointer-events: none;
+}
+</style>

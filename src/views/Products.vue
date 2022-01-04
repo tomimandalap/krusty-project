@@ -8,7 +8,7 @@
         </v-col>
 
         <v-col lg="4">
-          <v-form @submit.prevent="handleSearch">
+          <v-form @submit.prevent="handleSearch" class="pa-2">
             <v-text-field
               v-model="params.q"
               dense
@@ -25,6 +25,7 @@
                   color="#ffe600"
                   height="32"
                   class="text-capitalize rounded-lg"
+                  @click="$router.push('/products/add')"
                 >
                   Add
                 </v-btn>
@@ -143,7 +144,18 @@ export default {
     const list_menu = this.list_menu
     const findMenu = list_menu.find((el) => el.title == title)
 
-    this.menu = [Object.assign(findMenu, { active: false })]
+    // assign obj
+    const assignData = [Object.assign(findMenu, { active: true })]
+
+    // mapping menu
+    this.menu = assignData.map((el) => {
+      const { title, active, link } = el
+      return {
+        text: title,
+        disabled: active,
+        href: link,
+      }
+    })
 
     this.load()
   },

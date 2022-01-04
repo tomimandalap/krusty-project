@@ -18,6 +18,12 @@ const routes = [
     meta: { access: true },
   },
   {
+    path: '/products/add',
+    name: 'addProducts',
+    component: () => import('@/views/AddProduct'),
+    meta: { access: true },
+  },
+  {
     path: '/menus',
     name: 'Menus',
     component: () => import('@/views/Menus'),
