@@ -102,8 +102,10 @@ const products = {
         )
         .then((res) => {
           context.commit('setLoading', false)
+          context.commit('setShow', true)
           context.commit('setStatus', 'success')
-          console.log(res)
+          context.commit('setTitle', 'Success')
+          context.commit('setMessage', res.data.message)
           return true
         })
         .catch((err) => {

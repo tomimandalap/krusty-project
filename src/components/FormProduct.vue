@@ -403,15 +403,19 @@ export default {
       this.$store.commit('products/setLoading', true)
       const res = await this.$store.dispatch('products/createProduct', data)
       if (res) this.$router.push('/products')
+      else this.load()
     },
     async handleUpdateProduct(data) {
       const id_product = parseInt(this.$route.params.id)
       this.$store.commit('products/setLoading', true)
 
-      await this.$store.dispatch('products/updateProduct', {
+      const res = await this.$store.dispatch('products/updateProduct', {
         id: id_product,
         data,
       })
+
+      if (res) this.$router.push('/products')
+      else this.load()
     },
   },
 }

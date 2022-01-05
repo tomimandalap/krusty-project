@@ -11,6 +11,14 @@ const globalMenu = {
           child_menu: [],
         },
         {
+          title: 'Employee',
+          name: 'Employee',
+          icon: 'mdi-account',
+          link: '/employee',
+          access: [1], // admin
+          child_menu: [],
+        },
+        {
           title: 'Products',
           name: 'Products',
           icon: 'mdi-package-variant-closed',
