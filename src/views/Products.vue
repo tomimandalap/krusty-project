@@ -45,7 +45,7 @@
           <v-card
             elevetion="0"
             class="rounded-lg cursor"
-            @click="handleDetail(items.id)"
+            @click="$router.push(`/products/detail/${items.id}`)"
           >
             <v-img
               height="250"
@@ -167,9 +167,9 @@ export default {
         this.$store.dispatch('products/getProducts', this.params)
       }, 2000)
     },
-    handleDetail(id) {
-      alert(id)
-    },
+    // handleDetail(id) {
+    //   alert(id)
+    // },
     async handleSearch() {
       this.$store.commit('products/setLoading', true)
       setTimeout(() => {

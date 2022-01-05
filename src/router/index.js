@@ -24,6 +24,12 @@ const routes = [
     meta: { access: true },
   },
   {
+    path: '/products/detail/:id',
+    name: 'detailProduct',
+    component: () => import('@/views/DetailProduct'),
+    meta: { access: true },
+  },
+  {
     path: '/menus',
     name: 'Menus',
     component: () => import('@/views/Menus'),

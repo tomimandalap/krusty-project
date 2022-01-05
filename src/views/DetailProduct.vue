@@ -13,7 +13,7 @@ import LayoutDefault from '@/layouts/default'
 import Breadcrumbs from '@/components/Breadcrumbs'
 import Formproduct from '@/components/FormProduct'
 export default {
-  name: 'addProduct',
+  name: 'detailProduct',
   mixins: [globalMenu],
   components: {
     LayoutDefault,
@@ -22,7 +22,7 @@ export default {
   },
   data: () => ({
     menu: [],
-    mode_form: 'add',
+    mode_form: 'detail',
   }),
   mounted() {
     const [title_menu, title_submenu] = this.$route.path.split('/').slice(1)

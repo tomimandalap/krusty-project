@@ -26,9 +26,9 @@ const globalMenu = {
             },
             {
               title: 'Detail',
-              name: 'Dasboard',
+              name: 'Detail',
               icon: '',
-              link: '/products/detail',
+              link: '/products/detail/:id',
               access: [1],
             },
           ],

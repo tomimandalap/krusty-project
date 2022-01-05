@@ -1,171 +1,193 @@
 <template>
-  <v-form @submit.prevent="handleSubmit">
-    <v-row :class="['my-2', { 'no-gutters': $vuetify.breakpoint.width < 960 }]">
-      <v-col lg="3" md="4" sm="12" cols="12">
-        <v-img
-          :src="
-            imageURL ? imageURL : require('@/assets/images/default-product.png')
-          "
-          contain
-          width="100%"
-          :max-height="$vuetify.breakpoint.width >= 960 ? 255 : 350"
-          class="custom-img-product"
-        ></v-img>
+  <div>
+    <Loading :showLoading="loading" />
+    <v-form v-if="!loading" @submit.prevent="handleSubmit">
+      <v-row
+        :class="['my-2', { 'no-gutters': $vuetify.breakpoint.width < 960 }]"
+      >
+        <v-col lg="3" md="4" sm="12" cols="12">
+          <v-img
+            :src="
+              imageURL && imageURL == form.image
+                ? `${ImgProduct}/${imageURL}`
+                : imageURL && imageURL != form.image
+                ? imageURL
+                : require('@/assets/images/default-product.png')
+            "
+            contain
+            width="100%"
+            :max-height="$vuetify.breakpoint.width >= 960 ? 255 : 350"
+            class="custom-img-product"
+          ></v-img>
 
-        <!-- v-model="form.image" -->
-        <v-file-input
-          id="formimage"
-          ref="formimage"
-          outlined
-          show-size
-          color="black"
-          prepend-icon=""
-          truncate-length="12"
-          placeholder="Input file"
-          prepend-inner-icon="mdi-image"
-          accept="image/png, image/jpeg, image/jpg"
-          class="my-5"
-          :error-messages="
-            $v.form.image.$dirty && !$v.form.image.required
-              ? 'Image is required'
-              : []
-          "
-          @blur="$v.form.image.$touch()"
-          @change="inputImage($event)"
-        >
-          <template v-slot:selection="{ text }">
-            <v-chip small label color="#ffe600">
-              {{ text }}
-            </v-chip>
-          </template>
-        </v-file-input>
-      </v-col>
+          <!-- v-model="form.image" -->
+          <v-file-input
+            id="formimage"
+            ref="formimage"
+            outlined
+            show-size
+            color="black"
+            prepend-icon=""
+            truncate-length="12"
+            placeholder="Input file"
+            prepend-inner-icon="mdi-image"
+            accept="image/png, image/jpeg, image/jpg"
+            class="my-5"
+            :error-messages="
+              $v.form.image.$dirty && !$v.form.image.required
+                ? 'Image is required'
+                : []
+            "
+            @blur="$v.form.image.$touch()"
+            @change="inputImage($event)"
+          >
+            <template v-slot:selection="{ text }">
+              <v-chip small label color="#ffe600">
+                {{ text }}
+              </v-chip>
+            </template>
+          </v-file-input>
+        </v-col>
 
-      <v-col lg="9" md="8" sm="12" cols="12">
-        <label for="formname">
-          <strong>Name</strong>
-          <span class="red--text">*</span>
-        </label>
-        <v-text-field
-          id="formname"
-          ref="formname"
-          v-model="form.name"
-          outlined
-          color="black"
-          placeholder="Input product name"
-          class="rounded-lg"
-          maxLength="50"
-          :error-messages="
-            $v.form.name.$dirty && !$v.form.name.required
-              ? 'Name is required'
-              : $v.form.name.$dirty && !$v.form.name.alpha
-              ? 'Input name only alphabet characters'
-              : []
-          "
-          @blur="$v.form.name.$touch()"
-        ></v-text-field>
+        <v-col lg="9" md="8" sm="12" cols="12">
+          <label for="formname">
+            <strong>Name</strong>
+            <span class="red--text">*</span>
+          </label>
+          <v-text-field
+            id="formname"
+            ref="formname"
+            v-model="form.name"
+            outlined
+            color="black"
+            placeholder="Input product name"
+            class="rounded-lg"
+            maxLength="50"
+            :error-messages="
+              $v.form.name.$dirty && !$v.form.name.required
+                ? 'Name is required'
+                : $v.form.name.$dirty && !$v.form.name.onlyText
+                ? 'Input name only alphabet characters'
+                : []
+            "
+            @blur="$v.form.name.$touch()"
+          ></v-text-field>
 
-        <label for="formcategory">
-          <strong>Category</strong>
-          <span class="red--text">*</span>
-        </label>
-        <v-select
-          id="formcategory"
-          ref="formcategory"
-          v-model="form.category"
-          outlined
-          color="black"
-          :items="listcategory"
-          item-value="id"
-          item-text="text"
-          :menu-props="{ bottom: true, offsetY: true }"
-          placeholder="Select category product"
-          class="rounded-lg"
-          :error-messages="
-            $v.form.category.$dirty && !$v.form.category.required
-              ? 'Category is required'
-              : []
-          "
-          @blur="$v.form.category.$touch()"
-        ></v-select>
+          <label for="formcategory">
+            <strong>Category</strong>
+            <span class="red--text">*</span>
+          </label>
+          <v-select
+            id="formcategory"
+            ref="formcategory"
+            v-model="form.category"
+            outlined
+            color="black"
+            :items="listcategory"
+            item-value="id"
+            item-text="text"
+            :menu-props="{ bottom: true, offsetY: true }"
+            placeholder="Select category product"
+            class="rounded-lg"
+            :error-messages="
+              $v.form.category.$dirty && !$v.form.category.required
+                ? 'Category is required'
+                : []
+            "
+            @blur="$v.form.category.$touch()"
+          ></v-select>
 
-        <label for="formprice">
-          <strong>Price</strong>
-          <span class="red--text">*</span>
-        </label>
-        <v-text-field
-          id="formprice"
-          ref="formprice"
-          v-model="form.price"
-          v-money="money"
-          outlined
-          color="black"
-          prefix="Rp"
-          class="rounded-lg"
-          :error-messages="
-            $v.form.price.$dirty &&
-            (!$v.form.price.required || !$v.form.price.minimumPrice)
-              ? 'Price is required and cant be zero (Rp 0)'
-              : []
-          "
-          @blur="$v.form.price.$touch()"
-        ></v-text-field>
+          <label for="formprice">
+            <strong>Price</strong>
+            <span class="red--text">*</span>
+          </label>
+          <v-text-field
+            id="formprice"
+            ref="formprice"
+            v-model="form.price"
+            v-money="money"
+            outlined
+            color="black"
+            prefix="Rp"
+            class="rounded-lg"
+            :error-messages="
+              $v.form.price.$dirty &&
+              (!$v.form.price.required || !$v.form.price.minimumPrice)
+                ? 'Price is required and cant be zero (Rp 0)'
+                : []
+            "
+            @blur="$v.form.price.$touch()"
+          ></v-text-field>
 
-        <label for="formdescription">
-          <strong>Description</strong>
-          <span class="red--text">*</span>
-        </label>
-        <v-textarea
-          id="formdescription"
-          ref="formdescription"
-          v-model="form.description"
-          counter
-          outlined
-          clearable
-          color="black"
-          placeholder="Input description"
-          class="rounded-lg"
-          :error-messages="
-            $v.form.description.$dirty ? msgErrorDescription : []
-          "
-          @blur="$v.form.description.$touch()"
-        ></v-textarea>
-      </v-col>
-    </v-row>
+          <label for="formdescription">
+            <strong>Description</strong>
+            <span class="red--text">*</span>
+          </label>
+          <v-textarea
+            id="formdescription"
+            ref="formdescription"
+            v-model="form.description"
+            counter
+            outlined
+            clearable
+            color="black"
+            placeholder="Input description"
+            class="rounded-lg"
+            :error-messages="
+              $v.form.description.$dirty ? msgErrorDescription : []
+            "
+            @blur="$v.form.description.$touch()"
+          ></v-textarea>
+        </v-col>
+      </v-row>
 
-    <v-row>
-      <v-col lg="12" class="d-flex justify-center align-center">
-        <v-spacer></v-spacer>
-        <v-btn
-          elevation="0"
-          width="150"
-          color="#f0f0f0"
-          class="text-capitalize me-5"
-          @click="handleReset"
-        >
-          Reset
-        </v-btn>
+      <v-row>
+        <v-col lg="12" class="d-flex justify-center align-center">
+          <v-spacer></v-spacer>
+          <v-btn
+            elevation="0"
+            width="150"
+            color="#f0f0f0"
+            class="text-capitalize me-5"
+            @click="mode_form == 'add' ? handleReset() : $router.back()"
+          >
+            {{ mode_form == 'add' ? 'Reset' : 'Back' }}
+          </v-btn>
 
-        <v-btn
-          type="submit"
-          elevation="0"
-          width="150"
-          color="#ffe600"
-          class="text-capitalize"
-        >
-          Add Product
-        </v-btn>
-      </v-col>
-    </v-row>
-  </v-form>
+          <v-btn
+            type="submit"
+            elevation="0"
+            width="150"
+            color="#ffe600"
+            class="text-capitalize"
+          >
+            {{ mode_form == 'add' ? 'Add Product' : 'Update' }}
+          </v-btn>
+        </v-col>
+      </v-row>
+    </v-form>
+  </div>
 </template>
 <script>
+import Loading from '@/components/Loading'
 import convertion from '@/utils/convertion'
 import { validationMixin } from 'vuelidate'
-import { required, minLength, maxLength, alpha } from 'vuelidate/lib/validators'
+import {
+  required,
+  minLength,
+  maxLength,
+  helpers,
+} from 'vuelidate/lib/validators'
+const onlyText = helpers.regex('onlyText', /^[a-zA-Z .']*$/)
 export default {
   name: 'formProduct',
   mixins: [convertion, validationMixin],
+  props: {
+    mode_form: { type: String, default: 'add' },
+  },
+  components: {
+    Loading,
+  },
   data: () => ({
     imageURL: null,
     imageRAW: null,
@@ -198,7 +220,7 @@ export default {
   validations() {
     return {
       form: {
-        name: { required, alpha },
+        name: { required, onlyText },
         category: { required },
         price: {
           required,
@@ -211,13 +233,19 @@ export default {
           required,
           minLength: minLength(10),
           maxLength: maxLength(250),
-          alpha,
+          onlyText,
         },
-        image: { required },
+        image: this.mode_form == 'detail' ? { required: false } : { required },
       },
     }
   },
   computed: {
+    ImgProduct() {
+      return this.$store.state.ImgProduct
+    },
+    detail_data() {
+      return this.$store.state['products'].detail_data
+    },
     loading() {
       return this.$store.state['products'].loading
     },
@@ -241,7 +269,7 @@ export default {
         errors.push('Description must have at least 10 letters')
       !this.$v.form.description.maxLength &&
         errors.push('Description must have at most 250 letters')
-      !this.$v.form.description.alpha &&
+      !this.$v.form.description.onlyText &&
         errors.push('Description only alphabet characters')
       return errors
     },
@@ -258,7 +286,44 @@ export default {
       this.$store.commit('products/setShow', false)
     },
   },
+  mounted() {
+    if (this.mode_form == 'detail') {
+      this.$store.commit('products/setLoading', true)
+
+      setTimeout(() => {
+        this.load()
+      }, 2000)
+    }
+  },
   methods: {
+    async load() {
+      const id_product = parseInt(this.$route.params.id)
+      // this.$store.commit('products/setLoading', true)
+
+      const res = await this.$store.dispatch(
+        'products/getDetailProduct',
+        id_product,
+      )
+
+      if (res) {
+        const { name, category, price, description, image } =
+          this.detail_data[0]
+
+        // insert value field price
+        const input = this.$refs.formprice.$el.querySelector('input')
+        input.value = price
+
+        this.imageURL = image
+
+        this.form = {
+          name,
+          category,
+          price,
+          description,
+          image,
+        }
+      }
+    },
     inputImage(files) {
       const image = files
       const { type } = image || { type: null }
@@ -281,8 +346,15 @@ export default {
           this.form.image = this.imageRAW = image
         }
       } else {
-        this.form.image = this.imageURL = this.imageRAW = null
-        this.$v.form.image.$reset()
+        // add product
+        if (this.mode_form == 'add') {
+          this.form.image = this.imageURL = this.imageRAW = null
+          this.$v.form.image.$reset()
+        } else {
+          this.imageRAW = null
+          this.$v.form.image.$reset()
+          this.load()
+        }
       }
     },
     handleReset() {
@@ -324,7 +396,22 @@ export default {
         formdata.append(key, key == 'price' ? this.convertMoney(value) : value)
       }
 
-      console.log(formdata)
+      if (this.mode_form == 'add') this.handleAddProduct(formdata)
+      else this.handleUpdateProduct(formdata)
+    },
+    async handleAddProduct(data) {
+      this.$store.commit('products/setLoading', true)
+      const res = await this.$store.dispatch('products/createProduct', data)
+      if (res) this.$router.push('/products')
+    },
+    async handleUpdateProduct(data) {
+      const id_product = parseInt(this.$route.params.id)
+      this.$store.commit('products/setLoading', true)
+
+      await this.$store.dispatch('products/updateProduct', {
+        id: id_product,
+        data,
+      })
     },
   },
 }
