@@ -11,6 +11,10 @@ const convertion = {
         .format(value)
         .split(',')[0]
     },
+    convertMoney(value) {
+      let replaceMoney = String(value).replaceAll('.', '')
+      return parseInt(replaceMoney)
+    },
   },
 }
 

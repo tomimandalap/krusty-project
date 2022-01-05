@@ -1,7 +1,7 @@
 <template>
   <LayoutDefault>
     <Loading :showLoading="loading" />
-    <v-container v-if="!loading" fluid class="my-4">
+    <v-container v-if="!loading" fluid class="py-4 ps-10 pe-10">
       <v-row>
         <v-col lg="8">
           <Breadcrumbs :menu="menu" />

@@ -10,7 +10,7 @@ body {
   color: #ffe600;
 }
 .c_secondary {
-  color: #ff0000 !important;
+  color: #ff0000;
 }
 .c_success {
   color: #00bf71;
@@ -28,13 +28,6 @@ body {
 .min-100-vh {
   min-height: 100vh;
 }
-.v-text-field > .v-input__control > .v-input__slot > .v-text-field__slot {
-  padding-top: 6px;
-}
-.mdi:before,
-.mdi-set {
-  margin-top: 6px !important;
-}
 .custom_card_product {
   position: absolute;
   width: 100%;
@@ -43,4 +36,28 @@ body {
 }
 .cursor {
   cursor: pointer;
+}
+.custom-img-product {
+  border-radius: 10px;
+  border: 1px solid #8e8e8e;
+}
+/* overwride css */
+.v-text-field > .v-input__control > .v-input__slot > .v-text-field__slot,
+.v-file-input .v-file-input__text {
+  padding-top: 6px;
+}
+
+.theme--light.v-select .v-select__selections {
+  padding-top: 15px !important;
+}
+.mdi:before,
+.mdi-set {
+  margin-top: 6px !important;
+}
+.v-breadcrumbs__item {
+  color: red !important;
+}
+.v-breadcrumbs__item--disabled {
+  color: #8e8e8e !important;
+  pointer-events: none;
 }

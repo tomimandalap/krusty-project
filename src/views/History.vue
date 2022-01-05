@@ -1,6 +1,6 @@
 <template>
   <LayoutDefault>
-    <v-container fluid class="my-4">
+    <v-container fluid class="py-4 ps-10 pe-10">
       <Breadcrumbs :menu="menu" />
     </v-container>
   </LayoutDefault>

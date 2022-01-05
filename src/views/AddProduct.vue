@@ -1,20 +1,24 @@
 <template>
   <LayoutDefault>
-    <v-container fluid class="my-4">
+    <v-container fluid class="py-4 ps-10 pe-10">
       <Breadcrumbs :menu="menu" />
+
+      <Formproduct />
     </v-container>
   </LayoutDefault>
 </template>
 <script>
+import globalMenu from '@/utils/globalMenu'
 import LayoutDefault from '@/layouts/default'
 import Breadcrumbs from '@/components/Breadcrumbs'
-import globalMenu from '@/utils/globalMenu'
+import Formproduct from '@/components/FormProduct'
 export default {
   name: 'addProduct',
   mixins: [globalMenu],
   components: {
     LayoutDefault,
     Breadcrumbs,
+    Formproduct,
   },
   data: () => ({
     menu: [],
