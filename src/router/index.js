@@ -12,6 +12,12 @@ const routes = [
     meta: { access: true },
   },
   {
+    path: '/employee',
+    name: 'Employee',
+    component: () => import('@/views/Employee'),
+    meta: { access: true },
+  },
+  {
     path: '/products',
     name: 'Products',
     component: () => import('@/views/Products'),

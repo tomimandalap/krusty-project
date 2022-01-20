@@ -149,7 +149,9 @@
             width="150"
             color="#f0f0f0"
             class="text-capitalize me-5"
-            @click="mode_form == 'add' ? handleReset() : $router.back()"
+            @click="
+              mode_form == 'add' ? handleReset() : $router.push('/products')
+            "
           >
             {{ mode_form == 'add' ? 'Reset' : 'Back' }}
           </v-btn>

@@ -12,17 +12,17 @@
         online-class="online"
         offline-class="offline"
       >
-        <router-view v-if="online" />
-        <DetectOffline v-else />
+        <router-view v-if="!online" />
+        <!-- <DetectOffline v-else /> -->
       </v-offline>
     </v-main>
   </v-app>
 </template>
 <script>
-import DetectOffline from '@/components/DetectOffline'
+// import DetectOffline from '@/components/DetectOffline'
 export default {
   name: 'App',
-  components: { DetectOffline },
+  // components: { DetectOffline },
   data: () => ({
     online: true,
   }),

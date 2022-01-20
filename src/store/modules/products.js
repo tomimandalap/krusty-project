@@ -37,7 +37,9 @@ const products = {
   actions: {
     getProducts(context, params) {
       axios
-        .get(`${context.rootState.privateURL}/products?q=${params.q}`)
+        .get(
+          `${context.rootState.privateURL}/products?q=${params.q}&sort_by=${params.sort_by}`,
+        )
         .then((res) => {
           context.commit('setLoading', false)
           context.commit('setStatus', 'success')

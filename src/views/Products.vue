@@ -52,7 +52,14 @@
               :src="items.image ? `${ImgProduct}/${items.image}` : null"
             >
               <div class="pt-4 ps-3 pl-3 pb-0 custom_card_product">
-                <h3 class="white--text">{{ items.name }}</h3>
+                <h3 class="white--text">
+                  {{
+                    items.name.length > 18
+                      ? `${items.name.substr(0, 18)}...`
+                      : items.name
+                  }}
+                </h3>
+
                 <p class="c_primary font-weight-bold">
                   {{ formatCurrency(items.price) }}
                 </p>
@@ -99,6 +106,7 @@ export default {
       menu: [],
       params: {
         q: '',
+        sort_by: '',
         page: 1,
         limit: 25,
       },
@@ -167,10 +175,7 @@ export default {
         this.$store.dispatch('products/getProducts', this.params)
       }, 2000)
     },
-    // handleDetail(id) {
-    //   alert(id)
-    // },
-    async handleSearch() {
+    handleSearch() {
       this.$store.commit('products/setLoading', true)
       setTimeout(() => {
         this.$store.dispatch('products/getProducts', this.params)

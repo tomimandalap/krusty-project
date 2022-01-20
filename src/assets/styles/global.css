@@ -4,6 +4,7 @@
   text-decoration: none;
 }
 body {
+  overflow-x: hidden !important;
   background: #fff;
 }
 .c_primary {
@@ -46,18 +47,20 @@ body {
 .v-file-input .v-file-input__text {
   padding-top: 6px;
 }
-
-.theme--light.v-select .v-select__selections {
-  padding-top: 15px !important;
+/* .theme--light.v-select .v-select__selections {
+  padding-top: 0px !important;
 }
 .mdi:before,
 .mdi-set {
   margin-top: 6px !important;
-}
+} */
 .v-breadcrumbs__item {
   color: red !important;
 }
 .v-breadcrumbs__item--disabled {
   color: #8e8e8e !important;
   pointer-events: none;
+}
+.bg_gray {
+  background: #f0f0f0;
 }
