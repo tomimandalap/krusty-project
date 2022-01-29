@@ -52,12 +52,13 @@
           <template #[`item.actions`]="{ item }">
             <v-btn
               dense
-              outlined
-              :item="item"
-              elevation="0"
               block
+              outlined
+              elevation="0"
               color="#00bf71"
+              :disabled="getAccess != 1"
               class="text-capitalize rounded-lg"
+              @click="handleDetail(item.order_id)"
             >
               <v-icon>mdi-eye</v-icon>
               Detail
@@ -65,18 +66,36 @@
           </template>
         </v-data-table>
       </v-card>
+
+      <!-- popup struc -->
+      <Struck
+        :stateStruck="stateStruck"
+        :data_order="data_order"
+        :handleClose="
+          () => {
+            stateStruck = false
+          }
+        "
+        :handlePayment="
+          () => {
+            stateStruck = false
+          }
+        "
+      />
+      <!-- end popup struc -->
     </v-container>
   </LayoutDefault>
 </template>
 <script>
 import globalMenu from '@/utils/globalMenu'
 import Breadcrumbs from '@/components/Breadcrumbs'
+import Struck from '@/components/Struck'
 import LayoutDefault from '@/layouts/default'
 import convertion from '@/utils/convertion'
 export default {
   name: 'History',
   mixins: [globalMenu, convertion],
-  components: { Breadcrumbs, LayoutDefault },
+  components: { Breadcrumbs, LayoutDefault, Struck },
   data() {
     return {
       menu: [],
@@ -109,7 +128,21 @@ export default {
           created: '20220101',
         },
       ],
+      stateStruck: false,
+      data_order: {
+        order_id: '20220101KRUSTY150010',
+        name: 'Tomi',
+        cashier: 'Salsabila',
+        list_cart: [],
+        ppn: 10000,
+        total: 100000,
+      },
     }
+  },
+  computed: {
+    getAccess() {
+      return parseInt(this.$store.getters['users/getAccess'])
+    },
   },
   mounted() {
     const title = this.$route.name || 'History'
@@ -128,6 +161,12 @@ export default {
         href: link,
       }
     })
+  },
+  methods: {
+    handleDetail(order_id) {
+      console.log(order_id)
+      this.stateStruck = true
+    },
   },
 }
 </script>

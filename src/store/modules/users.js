@@ -14,6 +14,8 @@ const users = {
   }),
   getters: {
     getToken: (state) => state.token,
+    getAccess: (state) => state.access,
+    getName: (state) => state.name,
   },
   mutations: {
     setAccess(state, payload) {

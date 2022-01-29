@@ -304,6 +304,8 @@ export default {
     ppn: 0,
     loadingOrder: false,
     data_order: {
+      order_id: null,
+      cashier: null,
       name: null,
       list_cart: [],
       ppn: 0,
@@ -338,6 +340,9 @@ export default {
     },
     alert_message() {
       return this.$store.state['products'].alert_message
+    },
+    getName() {
+      return this.$store.getters['users/getName']
     },
   },
   watch: {
@@ -471,7 +476,22 @@ export default {
 
       this.loadingOrder = true
 
+      const datenow = new Date()
+        .toISOString()
+        .substring(0, 10)
+        .split('-')
+        .join('')
+
+      const random_id = new Date()
+      const hour = random_id.getUTCHours() + 7 // GMT 7
+      const minute = random_id.getUTCMinutes()
+      const second = random_id.getUTCSeconds()
+
       Object.assign(this.data_order, {
+        order_id: `${datenow}KRUSTY${hour}${
+          minute < 10 ? '0' + minute : minute
+        }${second}`,
+        cashier: this.getName,
         list_cart: this.list_cart,
         ppn: this.ppn,
         total: this.totalCart,

@@ -5,19 +5,19 @@
         class="d-flex justify-space-between align-center black--text py-1"
       >
         <span>Order ID :</span>
-        <span>20220101KRUSTY150010</span>
+        <span>{{ data_order.order_id ? data_order.order_id : '-' }}</span>
       </v-card-text>
       <v-card-text
         class="d-flex justify-space-between align-center black--text py-1"
       >
         <span>Cashier :</span>
-        <span>Salsabila</span>
+        <span>{{ data_order.cashier ? data_order.cashier : '-' }}</span>
       </v-card-text>
       <v-card-text
         class="d-flex justify-space-between align-center black--text py-1"
       >
         <span>Customer :</span>
-        <span>{{ data_order.name }}</span>
+        <span>{{ data_order.name ? data_order.name : '-' }}</span>
       </v-card-text>
 
       <v-card-text class="font-weight-bold black--text py-1">
