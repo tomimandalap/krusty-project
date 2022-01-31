@@ -120,6 +120,25 @@ const products = {
           return false
         })
     },
+    addHistory(context, data) {
+      return axios
+        .post(`${context.rootState.privateURL}/add_history`, data)
+        .then((res) => {
+          context.commit('setLoading', false)
+          context.commit('setShow', false)
+          context.commit('setMessage', res.data.message)
+          return true
+        })
+        .catch((err) => {
+          // console.error(err.response)
+          context.commit('setLoading', false)
+          context.commit('setShow', true)
+          context.commit('setStatus', 'error')
+          context.commit('setTitle', err.response.data.title)
+          context.commit('setMessage', err.response.data.message)
+          return false
+        })
+    },
   },
 }
 

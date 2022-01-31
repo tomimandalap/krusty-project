@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import moduleUsers from './modules/users'
 import moduleProducts from './modules/products'
+import moduleHistorys from './modules/historys'
 
 Vue.use(Vuex)
 
@@ -25,5 +26,6 @@ export default new Vuex.Store({
   modules: {
     users: moduleUsers,
     products: moduleProducts,
+    historys: moduleHistorys,
   },
 })

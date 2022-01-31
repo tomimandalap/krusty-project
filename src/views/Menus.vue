@@ -196,7 +196,7 @@
           </div>
 
           <v-text-field
-            v-model="data_order.name"
+            v-model="data_order.customer_name"
             outlined
             label="Customer"
             placeholder="Input name customer"
@@ -204,11 +204,15 @@
             maxLength="30"
             class="rounded-lg"
             :error-messages="
-              $v.data_order.name.$dirty && !$v.data_order.name.required
+              $v.data_order.customer_name.$dirty &&
+              !$v.data_order.customer_name.required
                 ? 'Customer is required'
+                : $v.data_order.customer_name.$dirty &&
+                  !$v.data_order.customer_name.onlyText
+                ? 'Input only alphabet'
                 : []
             "
-            @blur="$v.data_order.name.$touch()"
+            @blur="$v.data_order.customer_name.$touch()"
           ></v-text-field>
 
           <v-btn
@@ -247,14 +251,23 @@
             showCart = true
           }
         "
-        :handlePayment="
+        :handlePayment="handlePayment"
+        :loadingPayment="loadingPayment"
+      />
+      <!-- end popup struc -->
+
+      <!-- modals for info success or failed transaction -->
+      <Modals
+        :state_modal="state_modal"
+        :alert_message="alert_message"
+        :stateSuccess="stateSuccess"
+        :handleCloseModal="
           () => {
-            stateStruck = false
-            handleReset()
+            state_modal = false
           }
         "
       />
-      <!-- end popup struc -->
+      <!-- end modals for info success or failed transaction -->
     </v-container>
   </LayoutDefault>
 </template>
@@ -265,15 +278,19 @@ import LayoutDefault from '@/layouts/default'
 import Breadcrumbs from '@/components/Breadcrumbs'
 import Loading from '@/components/Loading'
 import Struck from '@/components/Struck'
+import Modals from '@/components/Modals'
 import { validationMixin } from 'vuelidate'
-import { required } from 'vuelidate/lib/validators'
+import { required, helpers } from 'vuelidate/lib/validators'
+const onlyText = helpers.regex('onlyText', /^[a-zA-Z]*$/)
 export default {
   name: 'Menus',
   mixins: [globalMenu, convertion, validationMixin],
-  components: { Breadcrumbs, LayoutDefault, Loading, Struck },
+  components: { Breadcrumbs, LayoutDefault, Loading, Struck, Modals },
   data: () => ({
     showCart: false,
     stateStruck: false,
+    state_modal: false,
+    stateSuccess: false,
     menu: [],
     items: [
       {
@@ -303,19 +320,20 @@ export default {
     totalCart: 0,
     ppn: 0,
     loadingOrder: false,
+    loadingPayment: false,
     data_order: {
       order_id: null,
-      cashier: null,
-      name: null,
-      list_cart: [],
-      ppn: 0,
-      total: 0,
+      cashier_name: null,
+      customer_name: null,
+      item_order: [],
+      ppn_amount: 0,
+      total_amount: 0,
     },
   }),
   validations() {
     return {
       data_order: {
-        name: { required },
+        customer_name: { required, onlyText },
       },
     }
   },
@@ -491,16 +509,35 @@ export default {
         order_id: `${datenow}KRUSTY${hour}${
           minute < 10 ? '0' + minute : minute
         }${second}`,
-        cashier: this.getName,
-        list_cart: this.list_cart,
-        ppn: this.ppn,
-        total: this.totalCart,
+        cashier_name: this.getName,
+        item_order: this.list_cart,
+        ppn_amount: this.ppn,
+        total_amount: this.totalCart,
       })
 
-      setTimeout(() => {
-        this.stateStruck = true
-        this.loadingOrder = this.showCart = false
-      }, 2000)
+      this.stateStruck = true
+      this.loadingOrder = this.showCart = false
+    },
+    async handlePayment() {
+      this.state_modal = true
+      let joinOrder = this.data_order.item_order.map((element) => {
+        return `${element.name} x${element.quality} ${element.sub_total}`
+      })
+
+      this.loadingPayment = true
+
+      const res = await this.$store.dispatch('products/addHistory', {
+        ...this.data_order,
+        item_order: joinOrder.toString(),
+      })
+
+      this.stateSuccess = res // state modal after payment
+
+      if (res) this.stateStruck = this.loadingPayment = false
+      else {
+        this.showCart = true
+        this.stateStruck = this.loadingPayment = false
+      }
     },
   },
 }

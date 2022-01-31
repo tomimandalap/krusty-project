@@ -5,19 +5,21 @@
 
       <v-card class="my-5">
         <v-card-title>
-          <v-text-field
-            v-model="params.q"
-            dense
-            outlined
-            single-line
-            hide-details
-            color="black"
-            append-icon="mdi-magnify"
-            class="rounded-lg"
-            placeholder="Searching by order id"
-          ></v-text-field>
+          <v-form @submit.prevent="handleSearching" style="width: 100%">
+            <v-text-field
+              v-model="params.q"
+              dense
+              outlined
+              single-line
+              hide-details
+              color="black"
+              append-icon="mdi-magnify"
+              class="rounded-lg"
+              placeholder="Searching by order id"
+            ></v-text-field>
+          </v-form>
         </v-card-title>
-        <v-data-table :headers="headers" :items="datas" :search="params.q">
+        <v-data-table :headers="headers" :items="datas">
           <template #[`header.order_id`]="{ header }">
             <div class="text-truncate">
               {{ header.text }}
@@ -43,11 +45,18 @@
               text-color="#fff"
               class="mb-2"
             >
-              {{ item.customer }}
+              {{ item.customer_name }}
             </v-chip>
           </template>
-          <template #[`item.total`]="{ item }">
-            <div class="text-truncate">{{ formatCurrency(item.total) }}</div>
+          <template #[`item.total_amount`]="{ item }">
+            <div class="text-truncate">
+              {{ formatCurrency(item.total_amount) }}
+            </div>
+          </template>
+          <template #[`item.created_at`]="{ item }">
+            <div class="text-truncate">
+              {{ item.created_at | formatDateTime }}
+            </div>
           </template>
           <template #[`item.actions`]="{ item }">
             <v-btn
@@ -69,8 +78,9 @@
 
       <!-- popup struc -->
       <Struck
+        mode_struck
         :stateStruck="stateStruck"
-        :data_order="data_order"
+        :data_order="detail_history"
         :handleClose="
           () => {
             stateStruck = false
@@ -92,10 +102,16 @@ import Breadcrumbs from '@/components/Breadcrumbs'
 import Struck from '@/components/Struck'
 import LayoutDefault from '@/layouts/default'
 import convertion from '@/utils/convertion'
+import moment from 'moment'
 export default {
   name: 'History',
   mixins: [globalMenu, convertion],
   components: { Breadcrumbs, LayoutDefault, Struck },
+  filters: {
+    formatDateTime(params) {
+      return moment(params).format('LL')
+    },
+  },
   data() {
     return {
       menu: [],
@@ -113,35 +129,56 @@ export default {
           value: 'order_id',
           width: '25%',
         },
-        { text: 'Cashier', align: 'start', value: 'cashier', width: '25%' },
-        { text: 'Cash', align: 'start', value: 'total', width: '15%' },
-        { text: 'Created', align: 'center', value: 'created', width: '20%' },
+        {
+          text: 'Cashier',
+          align: 'start',
+          value: 'cashier_name',
+          width: '25%',
+        },
+        { text: 'Cash', align: 'start', value: 'total_amount', width: '15%' },
+        { text: 'Created', align: 'center', value: 'created_at', width: '20%' },
         { text: '', align: 'center', value: 'actions', width: '15%' },
       ],
-      datas: [
-        {
-          id: 1,
-          order_id: '20220101KRUSTY150010',
-          customer: 'Tomi',
-          cashier: 'Salsabila',
-          total: 100000,
-          created: '20220101',
-        },
-      ],
       stateStruck: false,
-      data_order: {
-        order_id: '20220101KRUSTY150010',
-        name: 'Tomi',
-        cashier: 'Salsabila',
-        list_cart: [],
-        ppn: 10000,
-        total: 100000,
-      },
+      detail_history: {},
     }
   },
   computed: {
     getAccess() {
       return parseInt(this.$store.getters['users/getAccess'])
+    },
+    datas() {
+      return this.$store.state['historys'].datas
+    },
+    data_order() {
+      return this.$store.state['historys'].data_order
+    },
+    loading() {
+      return this.$store.state['historys'].loading
+    },
+    show_alert() {
+      return this.$store.state['historys'].show_alert
+    },
+    status() {
+      return this.$store.state['historys'].status
+    },
+    alert_title() {
+      return this.$store.state['historys'].alert_title
+    },
+    alert_message() {
+      return this.$store.state['historys'].alert_message
+    },
+  },
+  watch: {
+    show_alert(val) {
+      if (val) {
+        this.$notify({
+          type: this.status,
+          title: this.alert_title,
+          text: this.alert_message,
+        })
+      }
+      this.$store.commit('historys/setShow', false)
     },
   },
   mounted() {
@@ -161,11 +198,45 @@ export default {
         href: link,
       }
     })
+
+    this.load()
   },
   methods: {
-    handleDetail(order_id) {
-      console.log(order_id)
-      this.stateStruck = true
+    async load() {
+      await this.$store.dispatch('historys/allHistory', { ...this.params })
+    },
+    async handleDetail(order_id) {
+      const res = await this.$store.dispatch('historys/detailHistory', order_id)
+      if (res) {
+        const {
+          id,
+          order_id,
+          cashier_name,
+          customer_name,
+          ppn_amount,
+          total_amount,
+          created_at,
+          updated_at,
+        } = this.data_order
+
+        Object.assign(this.detail_history, {
+          id,
+          order_id,
+          cashier_name,
+          customer_name,
+          ppn_amount,
+          total_amount,
+          created_at,
+          updated_at,
+          item_order: this.data_order.item_order.split(','),
+        })
+
+        this.stateStruck = true
+      }
+    },
+    handleSearching() {
+      this.params.page = 1
+      this.load()
     },
   },
 }
