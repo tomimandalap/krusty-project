@@ -1,10 +1,5 @@
 <template>
   <v-app>
-    <!-- <v-app-bar app color="#fff" dark>
-      <v-btn icon color="#F0F0F0" @click="sideleft = !sideleft"
-        ><v-icon color="#000" dark>mdi-menu</v-icon></v-btn
-      >
-    </v-app-bar> -->
     <notifications position="top right" class="mt-2" />
     <v-main>
       <v-offline
@@ -32,7 +27,9 @@ export default {
   methods: {
     check() {
       const checking = this.$browserDetect
+      const widthScreen = this.$vuetify.breakpoint.width
       if (
+        widthScreen >= 600 &&
         !checking.isOpera &&
         !checking.isEdge &&
         !checking.isIE &&

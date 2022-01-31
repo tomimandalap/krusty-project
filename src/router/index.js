@@ -63,7 +63,7 @@ const routes = [
     path: '/browsersupport',
     name: 'browserSupport',
     component: () => import('@/components/BowserSupport'),
-    meta: { access: false },
+    meta: { access: true },
   },
   {
     path: '*',

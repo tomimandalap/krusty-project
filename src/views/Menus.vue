@@ -58,7 +58,7 @@
           :key="i"
           lg="3"
           md="4"
-          sm="4"
+          sm="6"
           cols="12"
         >
           <v-card
@@ -115,13 +115,13 @@
         <v-list-item class="py-4">
           <v-list-item-content>
             <v-list-item-title class="text-h6 text-center">
-              <v-icon color="black">mdi-cart</v-icon>
+              <v-icon color="black" @click="showCart = false">mdi-cart</v-icon>
               Cart
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
 
-        <div style="min-height: 400px; overflow-y: auto">
+        <div style="min-height: 400px; overflow-y: auto; overflow-x: hidden">
           <v-row class="no-gutters">
             <v-col
               v-for="(item, i) in list_cart"
@@ -399,12 +399,9 @@ export default {
     this.load()
   },
   methods: {
-    load() {
+    async load() {
       this.$store.commit('products/setLoading', true)
-
-      setTimeout(() => {
-        this.$store.dispatch('products/getProducts', this.params)
-      }, 2000)
+      await this.$store.dispatch('products/getProducts', this.params)
     },
     handleSearch() {
       this.$store.commit('products/setLoading', true)
