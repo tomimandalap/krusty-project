@@ -6,6 +6,7 @@ const users = {
     name: localStorage.getItem('name') || null,
     user_id: localStorage.getItem('user_id') || null,
     token: localStorage.getItem('token') || null,
+    datas: [],
     loading: false,
     show_alert: false,
     status: '',
@@ -16,6 +17,7 @@ const users = {
     getToken: (state) => state.token,
     getAccess: (state) => state.access,
     getName: (state) => state.name,
+    getUserID: (state) => state.user_id,
   },
   mutations: {
     setAccess(state, payload) {
@@ -29,6 +31,9 @@ const users = {
     },
     setToken(state, payload) {
       state.token = payload
+    },
+    setDatas(state, payload) {
+      state.datas = payload
     },
     setLoading(state, payload) {
       state.loading = payload
@@ -53,7 +58,6 @@ const users = {
         .then(() => {
           context.commit('setLoading', false)
           context.commit('setStatus', false)
-
           return true
         })
         .catch((err) => {
@@ -129,6 +133,65 @@ const users = {
           context.commit('setTitle', err.response.data.title)
           context.commit('setMessage', err.response.data.message)
           return false
+        })
+    },
+    getUsers(context, params) {
+      axios
+        .get(
+          `${context.rootState.privateURL}/users?q=${params.q}&sort_by=${params.sort_by}&page=${params.page}&limit=${params.limit}`,
+        )
+        .then((res) => {
+          context.commit('setLoading', false)
+          context.commit('setShow', false)
+          context.commit('setDatas', res.data.data)
+        })
+        .catch((err) => {
+          // console.error(err.response)
+          context.commit('setLoading', false)
+          context.commit('setShow', true)
+          context.commit('setStatus', 'error')
+          context.commit('setTitle', err.response.data.title)
+          context.commit('setMessage', err.response.data.message)
+        })
+    },
+    updatedUser(context, params) {
+      axios
+        .patch(
+          `${context.rootState.privateURL}/user/update/${params.user_id}`,
+          params.data,
+        )
+        .then((res) => {
+          context.commit('setLoading', false)
+          context.commit('setShow', true)
+          context.commit('setTitle', 'Status User')
+          context.commit('setStatus', 'Update Succes')
+          context.commit('setMessage', res.data.message)
+        })
+        .catch((err) => {
+          // console.error(err.response)
+          context.commit('setLoading', false)
+          context.commit('setShow', true)
+          context.commit('setStatus', 'error')
+          context.commit('setTitle', err.response.data.title)
+          context.commit('setMessage', err.response.data.message)
+        })
+    },
+    deleteUser(context, user_id) {
+      axios
+        .delete(`${context.rootState.privateURL}/user/delete/${user_id}`)
+        .then((res) => {
+          context.commit('setLoading', false)
+          context.commit('setShow', true)
+          context.commit('setStatus', 'success')
+          context.commit('setMessage', res.data.message)
+        })
+        .catch((err) => {
+          // console.error(err.response)
+          context.commit('setLoading', false)
+          context.commit('setShow', true)
+          context.commit('setStatus', 'error')
+          context.commit('setTitle', err.response.data.title)
+          context.commit('setMessage', err.response.data.message)
         })
     },
   },

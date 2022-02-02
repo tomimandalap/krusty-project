@@ -1,6 +1,7 @@
 <template>
   <LayoutDefault>
-    <v-container fluid class="py-4 ps-10 pe-10">
+    <Loading :showLoading="loading" />
+    <v-container v-if="!loading" fluid class="py-4 ps-10 pe-10">
       <Breadcrumbs :menu="menu" />
 
       <v-card class="my-5">
@@ -100,16 +101,17 @@
 import globalMenu from '@/utils/globalMenu'
 import Breadcrumbs from '@/components/Breadcrumbs'
 import Struck from '@/components/Struck'
+import Loading from '@/components/Loading'
 import LayoutDefault from '@/layouts/default'
 import convertion from '@/utils/convertion'
 import moment from 'moment'
 export default {
   name: 'History',
   mixins: [globalMenu, convertion],
-  components: { Breadcrumbs, LayoutDefault, Struck },
+  components: { Breadcrumbs, LayoutDefault, Struck, Loading },
   filters: {
     formatDateTime(params) {
-      return moment(params).format('LL')
+      return moment(params).format('lll')
     },
   },
   data() {
@@ -117,7 +119,7 @@ export default {
       menu: [],
       params: {
         q: '',
-        sort_by: '',
+        sort_by: 'desc',
         page: 1,
         limit: 25,
       },
@@ -203,6 +205,7 @@ export default {
   },
   methods: {
     async load() {
+      this.$store.commit('historys/setLoading', true)
       await this.$store.dispatch('historys/allHistory', { ...this.params })
     },
     async handleDetail(order_id) {

@@ -168,18 +168,13 @@ export default {
     this.load()
   },
   methods: {
-    load() {
+    async load() {
       this.$store.commit('products/setLoading', true)
-
-      setTimeout(() => {
-        this.$store.dispatch('products/getProducts', this.params)
-      }, 2000)
+      await this.$store.dispatch('products/getProducts', this.params)
     },
     handleSearch() {
-      this.$store.commit('products/setLoading', true)
-      setTimeout(() => {
-        this.$store.dispatch('products/getProducts', this.params)
-      }, 500)
+      this.params.page = 1
+      this.load()
     },
   },
 }

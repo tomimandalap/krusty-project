@@ -29,7 +29,9 @@ const Axios = () => {
     (err) => {
       console.error('Response', err.response)
       const code = parseInt(err.response && err.response.status)
-      if (code == 401 || code == 423) {
+      const user_id = store.getters['users/getUserID']
+
+      if (code == 401 || (code == 423 && user_id)) {
         store.dispatch('users/logout')
         setTimeout(() => {
           router.push('/login')
