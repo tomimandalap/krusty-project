@@ -7,6 +7,7 @@ const users = {
     user_id: localStorage.getItem('user_id') || null,
     token: localStorage.getItem('token') || null,
     datas: [],
+    detail_user: {},
     loading: false,
     show_alert: false,
     status: '',
@@ -34,6 +35,9 @@ const users = {
     },
     setDatas(state, payload) {
       state.datas = payload
+    },
+    setDetailUser(state, payload) {
+      state.detail_user = payload
     },
     setLoading(state, payload) {
       state.loading = payload
@@ -152,6 +156,25 @@ const users = {
           context.commit('setStatus', 'error')
           context.commit('setTitle', err.response.data.title)
           context.commit('setMessage', err.response.data.message)
+        })
+    },
+    detailUser(context, user_id) {
+      return axios
+        .get(`${context.rootState.privateURL}/user/detail/${user_id}`)
+        .then((res) => {
+          context.commit('setLoading', false)
+          context.commit('setShow', false)
+          context.commit('setDetailUser', res.data.data[0])
+          return true
+        })
+        .catch((err) => {
+          // console.error(err.response)
+          context.commit('setLoading', false)
+          context.commit('setShow', true)
+          context.commit('setStatus', 'error')
+          context.commit('setTitle', err.response.data.title)
+          context.commit('setMessage', err.response.data.message)
+          return false
         })
     },
     updatedUser(context, params) {

@@ -331,7 +331,7 @@ export default {
       const { type } = image || { type: null }
 
       // check files
-      if (files) {
+      if (image) {
         if (
           !type.includes('image/jpeg') &&
           !type.includes('image/jpg') &&

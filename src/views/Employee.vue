@@ -71,7 +71,7 @@
               outlined
               :color="item.status === 1 ? '#0085FF' : '#FF0000'"
             >
-              {{ item.status === 1 ? 'Active' : 'Not Active' }}
+              {{ item.status === 1 ? 'Actived' : 'Not Actived' }}
             </v-chip>
           </template>
 
@@ -98,7 +98,7 @@
                 class="text-capitalize rounded-lg"
                 @click="handleUpdate(item.user_id, item.status !== 1 ? 1 : 0)"
               >
-                {{ item.status !== 1 ? 'Active' : 'Not Active' }}
+                {{ item.status !== 1 ? 'Actived' : 'Not Actived' }}
               </v-btn>
 
               <v-btn
@@ -151,11 +151,11 @@ export default {
           value: 'email',
           width: '20%',
         },
-        { text: 'Profile', align: 'center', value: 'avatar', width: '20%' },
+        { text: 'Avatar', align: 'center', value: 'avatar', width: '20%' },
         { text: 'Status', align: 'center', value: 'status', width: '15%' },
         { text: 'Created', align: 'center', value: 'created', width: '15%' },
         { text: 'Updated', align: 'center', value: 'updated', width: '15%' },
-        { text: 'Actions', align: 'center', value: 'actions', width: '30%' },
+        { text: '', align: 'center', value: 'actions', width: '30%' },
       ],
       params: {
         q: '',
