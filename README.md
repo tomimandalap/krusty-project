@@ -1,24 +1,42 @@
-# krusty-pos
+### ```Getting Start```
 
-## Project setup
+Description Project Krusty Point of Sales (POS).
+
+### ```Build with```
+- [Axios](https://www.npmjs.com/package/axios) HTTP Client
+- [Moment JS](https://momentjs.com/) Management datetime
+- [V-Money](https://www.npmjs.com/package/v-money) Management currency vue component
+- [Vue](https://vuejs.org/v2/guide/) The web framework used
+- [Vuex](https://www.npmjs.com/package/vuex) State Management
+- [Vuetify](https://vuetifyjs.com/en/getting-started/installation/#vue-cli-install) Styling Vue using Vuetify
+- [Vue-Notification](https://www.npmjs.com/package/vue-notification) State notification
+- [Vuelidate](https://vuelidate.js.org/#sub-basic-form) Validation form use vuelidate
+
+
+### ```Installing```
+Clone project 
+```
+git clone https://github.com/tomimandalap/krusty-project.git
+```
 ```
 npm install
 ```
+or
+```
+yarn install
+```
 
-### Compiles and hot-reloads for development
+### ```Starting```
+To start use
 ```
 npm run serve
 ```
-
-### Compiles and minifies for production
+or
 ```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
+yarn start
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+---
+
+### ```Design UX/UI```
+Desain goto [figma](https://www.figma.com/file/zNhaMlxh7L8C8YSX3ujw8X/krusty-POS)
