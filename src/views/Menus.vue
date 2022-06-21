@@ -259,11 +259,11 @@
       <!-- modals for info success or failed transaction -->
       <Modals
         :state_modal="state_modal"
-        :alert_message="alert_message"
         :stateSuccess="stateSuccess"
         :handleCloseModal="
           () => {
             state_modal = false
+            showCart = !stateSuccess
           }
         "
       />
@@ -542,10 +542,7 @@ export default {
       if (res) {
         this.handleReset()
         this.stateStruck = this.loadingPayment = false
-      } else {
-        this.showCart = true
-        this.stateStruck = this.loadingPayment = false
-      }
+      } else this.stateStruck = this.loadingPayment = false
     },
   },
 }

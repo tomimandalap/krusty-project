@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="state_modal" max-width="300" height="1000" persistent>
     <v-card class="py-8 text-center">
-      <v-icon color="#00BF71" size="80">
+      <v-icon :color="stateSuccess ? '#00BF71' : 'error'" size="80">
         {{ stateSuccess ? 'mdi-cart-check' : 'mdi-close-circle' }}
       </v-icon>
       <v-card-text class="black--text my-2">
@@ -12,7 +12,7 @@
           elevation="0"
           block
           outlined
-          color="#00BF71"
+          :color="stateSuccess ? '#00BF71' : 'error'"
           class="rounded-lg"
           @click="handleCloseModal"
         >
