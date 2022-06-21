@@ -123,24 +123,24 @@ export default {
         page: 1,
         limit: 25,
       },
-      headers: [
-        {
-          text: 'Order ID',
-          align: 'start',
-          filterable: false,
-          value: 'order_id',
-          width: '25%',
-        },
-        {
-          text: 'Cashier',
-          align: 'start',
-          value: 'cashier_name',
-          width: '25%',
-        },
-        { text: 'Cash', align: 'start', value: 'total_amount', width: '15%' },
-        { text: 'Created', align: 'center', value: 'created_at', width: '20%' },
-        { text: '', align: 'center', value: 'actions', width: '15%' },
-      ],
+      // headers: [
+      //   {
+      //     text: 'Order ID',
+      //     align: 'start',
+      //     filterable: false,
+      //     value: 'order_id',
+      //     width: '25%',
+      //   },
+      //   {
+      //     text: 'Cashier',
+      //     align: 'start',
+      //     value: 'cashier_name',
+      //     width: '25%',
+      //   },
+      //   { text: 'Cash', align: 'start', value: 'total_amount', width: '15%' },
+      //   { text: 'Created', align: 'center', value: 'created_at', width: '20%' },
+      //   { text: '', align: 'center', value: 'actions', width: '15%' },
+      // ],
       stateStruck: false,
       detail_history: {},
     }
@@ -169,6 +169,42 @@ export default {
     },
     alert_message() {
       return this.$store.state['historys'].alert_message
+    },
+    headers() {
+      const access = [1].includes(this.getAccess)
+      let result = [
+        {
+          text: 'Order ID',
+          align: 'start',
+          filterable: false,
+          value: 'order_id',
+          width: '25%',
+        },
+        {
+          text: 'Cashier',
+          align: 'start',
+          value: 'cashier_name',
+          width: '25%',
+        },
+        { text: 'Cash', align: 'start', value: 'total_amount', width: '15%' },
+        {
+          text: 'Created',
+          align: 'center',
+          value: 'created_at',
+          width: '20%',
+        },
+      ]
+
+      if (access) {
+        return result.concat({
+          text: '',
+          align: 'center',
+          value: 'actions',
+          width: '15%',
+        })
+      } else {
+        return result
+      }
     },
   },
   watch: {
