@@ -479,7 +479,16 @@ export default {
     handleReset() {
       this.list_cart = []
       this.indexCart = 0
-      this.data_order.name = null
+
+      this.data_order = {
+        order_id: null,
+        cashier_name: null,
+        customer_name: null,
+        item_order: [],
+        ppn_amount: 0,
+        total_amount: 0,
+      }
+
       this.$v.data_order.$reset()
     },
     handleOrder() {
@@ -530,8 +539,10 @@ export default {
 
       this.stateSuccess = res // state modal after payment
 
-      if (res) this.stateStruck = this.loadingPayment = false
-      else {
+      if (res) {
+        this.handleReset()
+        this.stateStruck = this.loadingPayment = false
+      } else {
         this.showCart = true
         this.stateStruck = this.loadingPayment = false
       }
