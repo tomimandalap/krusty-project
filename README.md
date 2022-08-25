@@ -41,9 +41,9 @@ yarn start
 ###```LOGIN USER```
 Please login using the following accounts:
 
-emai: admin@gmail.com, pass: password
+emai: admin@gmail.com, pass: Password1
 
-email: cashier@gmail.com, pass: password
+email: cashier@gmail.com, pass: Password1
 
 Note: If you login using the cashier first, the account status must be active. You can set it on db user status change number 0 to 1 or you can login using admin user then on employee menu you can enable it.
 
