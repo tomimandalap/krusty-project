@@ -61,29 +61,48 @@
           sm="6"
           cols="12"
         >
-          <v-card
-            elevetion="0"
-            class="rounded-lg cursor"
-            @click="handleCart(items)"
-          >
-            <v-img
-              height="250"
-              :src="items.image ? `${ImgProduct}/${items.image}` : null"
-            >
-              <div class="pt-4 ps-3 pl-3 pb-0 custom_card_product">
-                <h3 class="white--text">
+          <v-hover v-slot="{ hover }">
+            <v-card elevetion="0" class="rounded-lg cursor">
+              <v-img
+                height="250"
+                :src="items.image ? `${ImgProduct}/${items.image}` : null"
+              >
+                <v-expand-transition>
+                  <div
+                    v-if="hover"
+                    class="d-flex justify-center align-end transition-fast-in-fast-out"
+                    style="height: 100%; background: rgba(0, 0, 0, 0.5)"
+                  >
+                    <v-btn
+                      elevation="0"
+                      color="primary"
+                      class="text-capitalize"
+                      block
+                      @click="handleCart(items)"
+                    >
+                      Buy
+                    </v-btn>
+                  </div>
+                </v-expand-transition>
+              </v-img>
+              <v-card-text class="pt-4 ps-3 pl-3 pb-0 white">
+                <p class="orange--text text-h5 font-weight-bold mb-0">
+                  {{ formatCurrency(items.price) }}
+                </p>
+                <h3 class="black--text text-h6">
                   {{
                     items.name.length > 18
                       ? `${items.name.substr(0, 18)}...`
                       : items.name
                   }}
                 </h3>
-                <p class="c_primary font-weight-bold">
-                  {{ formatCurrency(items.price) }}
+
+                <p class="black--text font-weight-regular text-truncate">
+                  {{ items.description }}
                 </p>
-              </div>
-            </v-img>
-          </v-card>
+              </v-card-text>
+            </v-card>
+          </v-hover>
         </v-col>
 
         <v-col v-show="!datas.length" cols="12">
