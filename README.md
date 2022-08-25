@@ -38,6 +38,15 @@ yarn start
 
 ---
 
+###```LOGIN USER```
+Please login using the following accounts:
+emai: admin@gmail.com, pass: password
+email: cashier@gmail.com, pass: password
+
+Note: If you login using the cashier first, the account status must be active. You can set it on db user status change number 0 to 1 or you can login using admin user then on employee menu you can enable it.
+
+---
+
 ### ```Design UX/UI```
 Desain goto [figma](https://www.figma.com/file/zNhaMlxh7L8C8YSX3ujw8X/krusty-POS)
 
