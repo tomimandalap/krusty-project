@@ -169,6 +169,7 @@
           </v-btn>
 
           <v-btn
+            :loading="loading"
             elevation="0"
             outlined
             color="#00BF71"
@@ -203,9 +204,14 @@ export default {
     }
   },
   validations() {
+    let isRequireImg = ['avatar.png', null].includes(this.imageURL)
     return {
       form: {
-        image: { required },
+        image: {
+          required: () => {
+            return !isRequireImg
+          },
+        },
         name: { required, onlyText },
       },
     }
@@ -316,15 +322,18 @@ export default {
           formdata.append(key, value)
         }
 
+        this.$store.commit('users/setLoading', true)
         const user_id = this.getUserID
+
         await this.$store.dispatch('users/updatedUser', {
           user_id,
           data: formdata,
         })
 
         this.state_profile = false
-        this.load()
+        this.$router.go()
       } else {
+        this.$store.commit('users/setLoading', false)
         this.form.image = null
       }
     },
