@@ -40,3 +40,7 @@ yarn start
 
 ### ```Design UX/UI```
 Desain goto [figma](https://www.figma.com/file/zNhaMlxh7L8C8YSX3ujw8X/krusty-POS)
+
+
+### ```Banckend```
+Let's see a [project](https://github.com/tomimandalap/krusty-project-express)
