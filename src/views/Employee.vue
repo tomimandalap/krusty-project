@@ -108,7 +108,7 @@
                 elevation="0"
                 color="#FF0000"
                 class="text-capitalize rounded-lg"
-                @click="handleDelete(item.user_id)"
+                @click="handleShow(item.user_id)"
               >
                 Delete
               </v-btn>
@@ -117,6 +117,41 @@
         </v-data-table>
       </v-card>
     </v-container>
+
+    <!-- POPUP DELETE -->
+    <v-dialog v-model="show" max-width="400" persistent>
+      <v-card elevation="0" class="text-center py-5">
+        <v-icon x-large color="error">mdi-delete-variant</v-icon>
+        <v-card-text class="my-5 text-h6 black--text font-weight-regular">
+          Are you sure delete this data?
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="primary"
+            elevation="0"
+            class="text-capitalize"
+            @click="
+              () => {
+                user_id = null
+                show = false
+              }
+            "
+          >
+            No
+          </v-btn>
+          <v-btn
+            color="error"
+            elevation="0"
+            class="text-capitalize"
+            @click="handleDelete()"
+          >
+            Yes, I do
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <!-- end -->
   </LayoutDefault>
 </template>
 <script>
@@ -136,6 +171,8 @@ export default {
   },
   data() {
     return {
+      show: false,
+      user_id: null,
       menu: [],
       headers: [
         {
@@ -243,8 +280,15 @@ export default {
 
       this.load()
     },
-    async handleDelete(user_id) {
-      await this.$store.dispatch('users/deleteUser', user_id)
+
+    async handleShow(user_id) {
+      this.user_id = user_id
+      this.show = true
+    },
+    async handleDelete() {
+      await this.$store.dispatch('users/deleteUser', this.user_id)
+      this.show = false
+      this.load()
     },
   },
 }
